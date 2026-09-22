@@ -14,6 +14,7 @@ import {
 import { Link } from "wouter";
 import { ArrowRightIcon, SignOutIcon, UserIcon } from "@phosphor-icons/react";
 import { sidebarItems } from "./data";
+import { useAuth } from "../../features/auth/auth.context";
 
 export default function Sidebar({
   hiddenFrom,
@@ -26,6 +27,7 @@ export default function Sidebar({
   containerStyle?: MantineStyleProp;
   mobile?: boolean;
 }) {
+  const { user, logout } = useAuth();
   return (
     <Container
       style={{
@@ -54,19 +56,15 @@ export default function Sidebar({
         ))}
       </Box>
       <Flex w={"100%"} align={"end"} justify={"center"}>
-        {/* <Menu position={mobile ? "top" : "right"} shadow="md" width={300}>
+        <Menu position={mobile ? "top" : "right"} shadow="md" width={300}>
           <Menu.Target>
             <UnstyledButton className={"user"} style={{ padding: "10px 10px" }}>
               <Group>
-                <Avatar
-                  src={user?.picture_link}
-                  radius="xl"
-                  alt={user?.first_name}
-                />
+                <Avatar src={""} radius="xl" alt={user?.name} />
 
                 <div style={{ flex: 1 }}>
                   <Text size="sm" fw={500}>
-                    {user?.first_name}
+                    {user?.name}
                   </Text>
 
                   <Text c="dimmed" size="xs">
@@ -86,7 +84,7 @@ export default function Sidebar({
               Chiqish
             </Menu.Item>
           </Menu.Dropdown>
-        </Menu> */}
+        </Menu>
       </Flex>
     </Container>
   );
