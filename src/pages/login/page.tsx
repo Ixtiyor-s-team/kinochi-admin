@@ -18,7 +18,7 @@ export default function LoginPage() {
     initialValues: {
       login: "",
       password: "",
-      remember: false,
+      remember: true,
     },
     validate: {
       password: (val) =>
@@ -56,7 +56,7 @@ export default function LoginPage() {
             <Checkbox
               disabled={mutationPending}
               key={form.key("remember")}
-              {...form.getInputProps("remember")}
+              {...form.getInputProps("remember", { type: "checkbox" })}
               label="Meni eslab qol"
             />
           </Group>
