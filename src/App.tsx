@@ -7,6 +7,7 @@ import AdminLayout from "./components/layouts/AdminLayout";
 import PublicRoute from "./components/layouts/PublicRoute";
 
 const LoginPage = lazy(() => import("./pages/login/page"));
+const AccessDeniedPage = lazy(() => import("./pages/access-denied/page"));
 
 function App() {
   return (
@@ -17,6 +18,14 @@ function App() {
           component={() => (
             <PublicRoute>
               <LoginPage />
+            </PublicRoute>
+          )}
+        />
+        <Route
+          path={PATHS.LOGIN}
+          component={() => (
+            <PublicRoute>
+              <AccessDeniedPage />
             </PublicRoute>
           )}
         />
