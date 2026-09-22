@@ -47,8 +47,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           });
 
           if (userData) {
-            localStorage.setItem("user", JSON.stringify(userData));
+            const storage = data.remember ? localStorage : sessionStorage;
+
+            localStorage.removeItem("user");
+            sessionStorage.removeItem("user");
+
+            storage.setItem("user", JSON.stringify(userData));
           }
+
           queryClient.invalidateQueries({
             queryKey: getGetApiV1AdminAuthMeQueryKey(),
           });
@@ -64,6 +70,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const logout = async () => {
     Cookies.remove("auth_token", { path: "/" });
     localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
     window.location.href = "/";
   };
 
