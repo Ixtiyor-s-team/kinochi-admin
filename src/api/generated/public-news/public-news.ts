@@ -9,8 +9,13 @@ import {
   useQuery
 } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
@@ -69,7 +74,7 @@ export const getGetApiV1NewsQueryKey = (params?: GetApiV1NewsParams,) => {
     }
 
 
-export const getGetApiV1NewsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1News>>, TError = ErrorResponse>(params?: GetApiV1NewsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1News>>, TError, TData>, }
+export const getGetApiV1NewsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1News>>, TError = ErrorResponse>(params?: GetApiV1NewsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1News>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -84,25 +89,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1News>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1News>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1NewsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1News>>>
 export type GetApiV1NewsQueryError = ErrorResponse
 
 
+export function useGetApiV1News<TData = Awaited<ReturnType<typeof getApiV1News>>, TError = ErrorResponse>(
+ params: undefined |  GetApiV1NewsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1News>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1News>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1News>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1News<TData = Awaited<ReturnType<typeof getApiV1News>>, TError = ErrorResponse>(
+ params?: GetApiV1NewsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1News>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1News>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1News>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1News<TData = Awaited<ReturnType<typeof getApiV1News>>, TError = ErrorResponse>(
+ params?: GetApiV1NewsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1News>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary List published news articles
  */
 
 export function useGetApiV1News<TData = Awaited<ReturnType<typeof getApiV1News>>, TError = ErrorResponse>(
- params?: GetApiV1NewsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1News>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+ params?: GetApiV1NewsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1News>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1NewsQueryOptions(params,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -138,7 +167,7 @@ export const getGetApiV1NewsSlugQueryKey = (slug: string,) => {
     }
 
 
-export const getGetApiV1NewsSlugQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError = ErrorResponse>(slug: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError, TData>, }
+export const getGetApiV1NewsSlugQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError = ErrorResponse>(slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -153,25 +182,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, enabled: slug !== null && slug !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, enabled: slug !== null && slug !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1NewsSlugQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1NewsSlug>>>
 export type GetApiV1NewsSlugQueryError = ErrorResponse
 
 
+export function useGetApiV1NewsSlug<TData = Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError = ErrorResponse>(
+ slug: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1NewsSlug>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1NewsSlug>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1NewsSlug<TData = Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError = ErrorResponse>(
+ slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1NewsSlug>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1NewsSlug>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1NewsSlug<TData = Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError = ErrorResponse>(
+ slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get published news article by slug
  */
 
 export function useGetApiV1NewsSlug<TData = Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError = ErrorResponse>(
- slug: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+ slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1NewsSlug>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1NewsSlugQueryOptions(slug,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }

@@ -10,9 +10,14 @@ import {
   useQuery
 } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -73,7 +78,7 @@ export const getGetApiV1AdminAdminsQueryKey = () => {
     }
 
 
-export const getGetApiV1AdminAdminsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError, TData>, }
+export const getGetApiV1AdminAdminsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError = void>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -88,25 +93,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1AdminAdminsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1AdminAdmins>>>
 export type GetApiV1AdminAdminsQueryError = void
 
 
+export function useGetApiV1AdminAdmins<TData = Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError = void>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminAdmins>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminAdmins>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminAdmins<TData = Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminAdmins>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminAdmins>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminAdmins<TData = Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary List all administrators (Superadmin only)
  */
 
 export function useGetApiV1AdminAdmins<TData = Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError = void>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdmins>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1AdminAdminsQueryOptions(options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -175,13 +204,13 @@ const {mutation: mutationOptions} = options ?
  */
 export const usePostApiV1AdminAdmins = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1AdminAdmins>>, TError,PostApiV1AdminAdminsMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1AdminAdmins>>,
         TError,
         PostApiV1AdminAdminsMutationVariables,
         TContext
       > => {
-      return useMutation(getPostApiV1AdminAdminsMutationOptions(options));
+      return useMutation(getPostApiV1AdminAdminsMutationOptions(options), queryClient);
     }
     /**
  * @summary Get admin details by ID (Superadmin only)
@@ -208,7 +237,7 @@ export const getGetApiV1AdminAdminsIdQueryKey = (id: string,) => {
     }
 
 
-export const getGetApiV1AdminAdminsIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError = void>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError, TData>, }
+export const getGetApiV1AdminAdminsIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -223,25 +252,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1AdminAdminsIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1AdminAdminsId>>>
 export type GetApiV1AdminAdminsIdQueryError = void
 
 
+export function useGetApiV1AdminAdminsId<TData = Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError = void>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminAdminsId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminAdminsId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminAdminsId<TData = Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminAdminsId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminAdminsId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminAdminsId<TData = Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get admin details by ID (Superadmin only)
  */
 
 export function useGetApiV1AdminAdminsId<TData = Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError = void>(
- id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAdminsId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1AdminAdminsIdQueryOptions(id,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -311,13 +364,13 @@ const {mutation: mutationOptions} = options ?
  */
 export const usePatchApiV1AdminAdminsId = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiV1AdminAdminsId>>, TError,PatchApiV1AdminAdminsIdMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof patchApiV1AdminAdminsId>>,
         TError,
         PatchApiV1AdminAdminsIdMutationVariables,
         TContext
       > => {
-      return useMutation(getPatchApiV1AdminAdminsIdMutationOptions(options));
+      return useMutation(getPatchApiV1AdminAdminsIdMutationOptions(options), queryClient);
     }
     /**
  * @summary Delete admin account (Superadmin only)
@@ -376,13 +429,13 @@ const {mutation: mutationOptions} = options ?
  */
 export const useDeleteApiV1AdminAdminsId = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1AdminAdminsId>>, TError,DeleteApiV1AdminAdminsIdMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteApiV1AdminAdminsId>>,
         TError,
         DeleteApiV1AdminAdminsIdMutationVariables,
         TContext
       > => {
-      return useMutation(getDeleteApiV1AdminAdminsIdMutationOptions(options));
+      return useMutation(getDeleteApiV1AdminAdminsIdMutationOptions(options), queryClient);
     }
     /**
  * @summary Reset admin password (Superadmin only)
@@ -444,11 +497,11 @@ const {mutation: mutationOptions} = options ?
  */
 export const usePatchApiV1AdminAdminsIdPassword = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiV1AdminAdminsIdPassword>>, TError,PatchApiV1AdminAdminsIdPasswordMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof patchApiV1AdminAdminsIdPassword>>,
         TError,
         PatchApiV1AdminAdminsIdPasswordMutationVariables,
         TContext
       > => {
-      return useMutation(getPatchApiV1AdminAdminsIdPasswordMutationOptions(options));
+      return useMutation(getPatchApiV1AdminAdminsIdPasswordMutationOptions(options), queryClient);
     }

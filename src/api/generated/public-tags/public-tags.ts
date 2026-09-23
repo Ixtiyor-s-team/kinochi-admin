@@ -9,8 +9,13 @@ import {
   useQuery
 } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
@@ -66,7 +71,7 @@ export const getGetApiV1TagsQueryKey = () => {
     }
 
 
-export const getGetApiV1TagsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1Tags>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1Tags>>, TError, TData>, }
+export const getGetApiV1TagsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1Tags>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Tags>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -81,25 +86,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1Tags>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1Tags>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1TagsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1Tags>>>
 export type GetApiV1TagsQueryError = unknown
 
 
+export function useGetApiV1Tags<TData = Awaited<ReturnType<typeof getApiV1Tags>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Tags>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1Tags>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1Tags>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1Tags<TData = Awaited<ReturnType<typeof getApiV1Tags>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Tags>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1Tags>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1Tags>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1Tags<TData = Awaited<ReturnType<typeof getApiV1Tags>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Tags>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary List all tags
  */
 
 export function useGetApiV1Tags<TData = Awaited<ReturnType<typeof getApiV1Tags>>, TError = unknown>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1Tags>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Tags>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1TagsQueryOptions(options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -134,7 +163,7 @@ export const getGetApiV1TagsSlugQueryKey = (slug: string,) => {
     }
 
 
-export const getGetApiV1TagsSlugQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError = ErrorResponse>(slug: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError, TData>, }
+export const getGetApiV1TagsSlugQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError = ErrorResponse>(slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -149,25 +178,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, enabled: slug !== null && slug !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, enabled: slug !== null && slug !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1TagsSlugQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1TagsSlug>>>
 export type GetApiV1TagsSlugQueryError = ErrorResponse
 
 
+export function useGetApiV1TagsSlug<TData = Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError = ErrorResponse>(
+ slug: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1TagsSlug>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1TagsSlug>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1TagsSlug<TData = Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError = ErrorResponse>(
+ slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1TagsSlug>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1TagsSlug>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1TagsSlug<TData = Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError = ErrorResponse>(
+ slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get tag by slug
  */
 
 export function useGetApiV1TagsSlug<TData = Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError = ErrorResponse>(
- slug: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+ slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1TagsSlug>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1TagsSlugQueryOptions(slug,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }

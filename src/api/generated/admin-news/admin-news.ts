@@ -10,9 +10,14 @@ import {
   useQuery
 } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -74,7 +79,7 @@ export const getGetApiV1AdminNewsQueryKey = (params?: GetApiV1AdminNewsParams,) 
     }
 
 
-export const getGetApiV1AdminNewsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminNews>>, TError = unknown>(params?: GetApiV1AdminNewsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNews>>, TError, TData>, }
+export const getGetApiV1AdminNewsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminNews>>, TError = unknown>(params?: GetApiV1AdminNewsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNews>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -89,25 +94,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNews>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNews>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1AdminNewsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1AdminNews>>>
 export type GetApiV1AdminNewsQueryError = unknown
 
 
+export function useGetApiV1AdminNews<TData = Awaited<ReturnType<typeof getApiV1AdminNews>>, TError = unknown>(
+ params: undefined |  GetApiV1AdminNewsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNews>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminNews>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminNews>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminNews<TData = Awaited<ReturnType<typeof getApiV1AdminNews>>, TError = unknown>(
+ params?: GetApiV1AdminNewsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNews>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminNews>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminNews>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminNews<TData = Awaited<ReturnType<typeof getApiV1AdminNews>>, TError = unknown>(
+ params?: GetApiV1AdminNewsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNews>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary List news articles including drafts (Admin/Superadmin)
  */
 
 export function useGetApiV1AdminNews<TData = Awaited<ReturnType<typeof getApiV1AdminNews>>, TError = unknown>(
- params?: GetApiV1AdminNewsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNews>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+ params?: GetApiV1AdminNewsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNews>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1AdminNewsQueryOptions(params,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -176,13 +205,13 @@ const {mutation: mutationOptions} = options ?
  */
 export const usePostApiV1AdminNews = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1AdminNews>>, TError,PostApiV1AdminNewsMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1AdminNews>>,
         TError,
         PostApiV1AdminNewsMutationVariables,
         TContext
       > => {
-      return useMutation(getPostApiV1AdminNewsMutationOptions(options));
+      return useMutation(getPostApiV1AdminNewsMutationOptions(options), queryClient);
     }
     /**
  * @summary Get news article by ID with audit information (Admin/Superadmin)
@@ -209,7 +238,7 @@ export const getGetApiV1AdminNewsIdQueryKey = (id: string,) => {
     }
 
 
-export const getGetApiV1AdminNewsIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError = void>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError, TData>, }
+export const getGetApiV1AdminNewsIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -224,25 +253,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1AdminNewsIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1AdminNewsId>>>
 export type GetApiV1AdminNewsIdQueryError = void
 
 
+export function useGetApiV1AdminNewsId<TData = Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError = void>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminNewsId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminNewsId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminNewsId<TData = Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminNewsId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminNewsId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminNewsId<TData = Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get news article by ID with audit information (Admin/Superadmin)
  */
 
 export function useGetApiV1AdminNewsId<TData = Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError = void>(
- id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminNewsId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1AdminNewsIdQueryOptions(id,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -312,13 +365,13 @@ const {mutation: mutationOptions} = options ?
  */
 export const usePatchApiV1AdminNewsId = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiV1AdminNewsId>>, TError,PatchApiV1AdminNewsIdMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof patchApiV1AdminNewsId>>,
         TError,
         PatchApiV1AdminNewsIdMutationVariables,
         TContext
       > => {
-      return useMutation(getPatchApiV1AdminNewsIdMutationOptions(options));
+      return useMutation(getPatchApiV1AdminNewsIdMutationOptions(options), queryClient);
     }
     /**
  * @summary Delete news article (Admin/Superadmin)
@@ -377,11 +430,11 @@ const {mutation: mutationOptions} = options ?
  */
 export const useDeleteApiV1AdminNewsId = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1AdminNewsId>>, TError,DeleteApiV1AdminNewsIdMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteApiV1AdminNewsId>>,
         TError,
         DeleteApiV1AdminNewsIdMutationVariables,
         TContext
       > => {
-      return useMutation(getDeleteApiV1AdminNewsIdMutationOptions(options));
+      return useMutation(getDeleteApiV1AdminNewsIdMutationOptions(options), queryClient);
     }

@@ -10,9 +10,14 @@ import {
   useQuery
 } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -20,6 +25,10 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  ErrorResponse,
+  GetApiV1AdminTags200,
+  GetApiV1AdminTagsId200,
+  GetApiV1AdminTagsParams,
   PatchApiV1AdminTagsIdBody,
   PostApiV1AdminTagsBody
 } from '../../model';
@@ -45,16 +54,18 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
 };
 
 /**
- * @summary List tags (Admin/Superadmin)
+ * Returns a paginated tag list. Supports case-insensitive search by name/slug and sorting.
+ * @summary List tags with pagination, search and sorting (Admin/Superadmin)
  */
 export const getApiV1AdminTags = (
-
+    params?: GetApiV1AdminTagsParams,
  signal?: AbortSignal
 ) => {
 
 
-      return customInstance<void>(
-      {url: `/api/v1/admin/tags`, method: 'GET', signal
+      return customInstance<GetApiV1AdminTags200>(
+      {url: `/api/v1/admin/tags`, method: 'GET',
+        params, signal
     },
       );
     }
@@ -62,47 +73,71 @@ export const getApiV1AdminTags = (
 
 
 
-export const getGetApiV1AdminTagsQueryKey = () => {
+export const getGetApiV1AdminTagsQueryKey = (params?: GetApiV1AdminTagsParams,) => {
     return [
-    `/api/v1/admin/tags`
+    `/api/v1/admin/tags`, ...(params ? [params] : [])
     ] as const;
     }
 
 
-export const getGetApiV1AdminTagsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminTags>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTags>>, TError, TData>, }
+export const getGetApiV1AdminTagsQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminTags>>, TError = ErrorResponse>(params?: GetApiV1AdminTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTags>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiV1AdminTagsQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV1AdminTagsQueryKey(params);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV1AdminTags>>> = ({ signal }) => getApiV1AdminTags(signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV1AdminTags>>> = ({ signal }) => getApiV1AdminTags(params, signal);
 
 
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTags>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTags>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1AdminTagsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1AdminTags>>>
-export type GetApiV1AdminTagsQueryError = unknown
+export type GetApiV1AdminTagsQueryError = ErrorResponse
 
 
+export function useGetApiV1AdminTags<TData = Awaited<ReturnType<typeof getApiV1AdminTags>>, TError = ErrorResponse>(
+ params: undefined |  GetApiV1AdminTagsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTags>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminTags>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminTags>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminTags<TData = Awaited<ReturnType<typeof getApiV1AdminTags>>, TError = ErrorResponse>(
+ params?: GetApiV1AdminTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTags>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminTags>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminTags>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminTags<TData = Awaited<ReturnType<typeof getApiV1AdminTags>>, TError = ErrorResponse>(
+ params?: GetApiV1AdminTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTags>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
- * @summary List tags (Admin/Superadmin)
+ * @summary List tags with pagination, search and sorting (Admin/Superadmin)
  */
 
-export function useGetApiV1AdminTags<TData = Awaited<ReturnType<typeof getApiV1AdminTags>>, TError = unknown>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTags>>, TError, TData>, }
+export function useGetApiV1AdminTags<TData = Awaited<ReturnType<typeof getApiV1AdminTags>>, TError = ErrorResponse>(
+ params?: GetApiV1AdminTagsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTags>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetApiV1AdminTagsQueryOptions(params,options)
 
-  const queryOptions = getGetApiV1AdminTagsQueryOptions(options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -171,13 +206,13 @@ const {mutation: mutationOptions} = options ?
  */
 export const usePostApiV1AdminTags = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1AdminTags>>, TError,PostApiV1AdminTagsMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1AdminTags>>,
         TError,
         PostApiV1AdminTagsMutationVariables,
         TContext
       > => {
-      return useMutation(getPostApiV1AdminTagsMutationOptions(options));
+      return useMutation(getPostApiV1AdminTagsMutationOptions(options), queryClient);
     }
     /**
  * @summary Get tag by ID (Admin/Superadmin)
@@ -188,7 +223,7 @@ export const getApiV1AdminTagsId = (
 ) => {
 
 
-      return customInstance<void>(
+      return customInstance<GetApiV1AdminTagsId200>(
       {url: `/api/v1/admin/tags/${id}`, method: 'GET', signal
     },
       );
@@ -204,7 +239,7 @@ export const getGetApiV1AdminTagsIdQueryKey = (id: string,) => {
     }
 
 
-export const getGetApiV1AdminTagsIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError = void>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError, TData>, }
+export const getGetApiV1AdminTagsIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError = ErrorResponse>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -219,25 +254,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1AdminTagsIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1AdminTagsId>>>
-export type GetApiV1AdminTagsIdQueryError = void
+export type GetApiV1AdminTagsIdQueryError = ErrorResponse
 
 
+export function useGetApiV1AdminTagsId<TData = Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError = ErrorResponse>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminTagsId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminTagsId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminTagsId<TData = Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError = ErrorResponse>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminTagsId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminTagsId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminTagsId<TData = Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError = ErrorResponse>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get tag by ID (Admin/Superadmin)
  */
 
-export function useGetApiV1AdminTagsId<TData = Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError = void>(
- id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+export function useGetApiV1AdminTagsId<TData = Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError = ErrorResponse>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminTagsId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1AdminTagsIdQueryOptions(id,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -307,13 +366,13 @@ const {mutation: mutationOptions} = options ?
  */
 export const usePatchApiV1AdminTagsId = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiV1AdminTagsId>>, TError,PatchApiV1AdminTagsIdMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof patchApiV1AdminTagsId>>,
         TError,
         PatchApiV1AdminTagsIdMutationVariables,
         TContext
       > => {
-      return useMutation(getPatchApiV1AdminTagsIdMutationOptions(options));
+      return useMutation(getPatchApiV1AdminTagsIdMutationOptions(options), queryClient);
     }
     /**
  * @summary Delete tag (Admin/Superadmin)
@@ -372,11 +431,11 @@ const {mutation: mutationOptions} = options ?
  */
 export const useDeleteApiV1AdminTagsId = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1AdminTagsId>>, TError,DeleteApiV1AdminTagsIdMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteApiV1AdminTagsId>>,
         TError,
         DeleteApiV1AdminTagsIdMutationVariables,
         TContext
       > => {
-      return useMutation(getDeleteApiV1AdminTagsIdMutationOptions(options));
+      return useMutation(getDeleteApiV1AdminTagsIdMutationOptions(options), queryClient);
     }

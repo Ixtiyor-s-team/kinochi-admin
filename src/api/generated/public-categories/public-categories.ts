@@ -9,8 +9,13 @@ import {
   useQuery
 } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
@@ -66,7 +71,7 @@ export const getGetApiV1CategoriesQueryKey = () => {
     }
 
 
-export const getGetApiV1CategoriesQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1Categories>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1Categories>>, TError, TData>, }
+export const getGetApiV1CategoriesQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1Categories>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Categories>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -81,25 +86,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1Categories>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1Categories>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1CategoriesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1Categories>>>
 export type GetApiV1CategoriesQueryError = unknown
 
 
+export function useGetApiV1Categories<TData = Awaited<ReturnType<typeof getApiV1Categories>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Categories>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1Categories>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1Categories>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1Categories<TData = Awaited<ReturnType<typeof getApiV1Categories>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Categories>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1Categories>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1Categories>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1Categories<TData = Awaited<ReturnType<typeof getApiV1Categories>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Categories>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary List all categories
  */
 
 export function useGetApiV1Categories<TData = Awaited<ReturnType<typeof getApiV1Categories>>, TError = unknown>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1Categories>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1Categories>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1CategoriesQueryOptions(options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -134,7 +163,7 @@ export const getGetApiV1CategoriesSlugQueryKey = (slug: string,) => {
     }
 
 
-export const getGetApiV1CategoriesSlugQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError = ErrorResponse>(slug: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError, TData>, }
+export const getGetApiV1CategoriesSlugQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError = ErrorResponse>(slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -149,25 +178,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, enabled: slug !== null && slug !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, enabled: slug !== null && slug !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1CategoriesSlugQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1CategoriesSlug>>>
 export type GetApiV1CategoriesSlugQueryError = ErrorResponse
 
 
+export function useGetApiV1CategoriesSlug<TData = Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError = ErrorResponse>(
+ slug: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1CategoriesSlug>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1CategoriesSlug>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1CategoriesSlug<TData = Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError = ErrorResponse>(
+ slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1CategoriesSlug>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1CategoriesSlug>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1CategoriesSlug<TData = Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError = ErrorResponse>(
+ slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get category by slug
  */
 
 export function useGetApiV1CategoriesSlug<TData = Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError = ErrorResponse>(
- slug: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+ slug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1CategoriesSlug>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1CategoriesSlugQueryOptions(slug,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }

@@ -10,9 +10,14 @@ import {
   useQuery
 } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -70,7 +75,7 @@ export const getGetApiV1AdminCategoriesQueryKey = () => {
     }
 
 
-export const getGetApiV1AdminCategoriesQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>, }
+export const getGetApiV1AdminCategoriesQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -85,25 +90,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1AdminCategoriesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1AdminCategories>>>
 export type GetApiV1AdminCategoriesQueryError = unknown
 
 
+export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminCategories>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminCategories>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminCategories>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminCategories>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary List categories (Admin/Superadmin)
  */
 
 export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = unknown>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1AdminCategoriesQueryOptions(options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -172,13 +201,13 @@ const {mutation: mutationOptions} = options ?
  */
 export const usePostApiV1AdminCategories = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1AdminCategories>>, TError,PostApiV1AdminCategoriesMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1AdminCategories>>,
         TError,
         PostApiV1AdminCategoriesMutationVariables,
         TContext
       > => {
-      return useMutation(getPostApiV1AdminCategoriesMutationOptions(options));
+      return useMutation(getPostApiV1AdminCategoriesMutationOptions(options), queryClient);
     }
     /**
  * @summary Get category by ID (Admin/Superadmin)
@@ -205,7 +234,7 @@ export const getGetApiV1AdminCategoriesIdQueryKey = (id: string,) => {
     }
 
 
-export const getGetApiV1AdminCategoriesIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError = void>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError, TData>, }
+export const getGetApiV1AdminCategoriesIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -220,25 +249,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1AdminCategoriesIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>>
 export type GetApiV1AdminCategoriesIdQueryError = void
 
 
+export function useGetApiV1AdminCategoriesId<TData = Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError = void>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminCategoriesId<TData = Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminCategoriesId<TData = Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get category by ID (Admin/Superadmin)
  */
 
 export function useGetApiV1AdminCategoriesId<TData = Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError = void>(
- id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategoriesId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1AdminCategoriesIdQueryOptions(id,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -308,13 +361,13 @@ const {mutation: mutationOptions} = options ?
  */
 export const usePatchApiV1AdminCategoriesId = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiV1AdminCategoriesId>>, TError,PatchApiV1AdminCategoriesIdMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof patchApiV1AdminCategoriesId>>,
         TError,
         PatchApiV1AdminCategoriesIdMutationVariables,
         TContext
       > => {
-      return useMutation(getPatchApiV1AdminCategoriesIdMutationOptions(options));
+      return useMutation(getPatchApiV1AdminCategoriesIdMutationOptions(options), queryClient);
     }
     /**
  * @summary Delete category (Admin/Superadmin)
@@ -373,11 +426,11 @@ const {mutation: mutationOptions} = options ?
  */
 export const useDeleteApiV1AdminCategoriesId = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiV1AdminCategoriesId>>, TError,DeleteApiV1AdminCategoriesIdMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteApiV1AdminCategoriesId>>,
         TError,
         DeleteApiV1AdminCategoriesIdMutationVariables,
         TContext
       > => {
-      return useMutation(getDeleteApiV1AdminCategoriesIdMutationOptions(options));
+      return useMutation(getDeleteApiV1AdminCategoriesIdMutationOptions(options), queryClient);
     }

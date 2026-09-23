@@ -10,9 +10,14 @@ import {
   useQuery
 } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -107,13 +112,13 @@ const {mutation: mutationOptions} = options ?
  */
 export const usePostApiV1AdminAuthLogin = <TError = ErrorResponse,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1AdminAuthLogin>>, TError,PostApiV1AdminAuthLoginMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1AdminAuthLogin>>,
         TError,
         PostApiV1AdminAuthLoginMutationVariables,
         TContext
       > => {
-      return useMutation(getPostApiV1AdminAuthLoginMutationOptions(options));
+      return useMutation(getPostApiV1AdminAuthLoginMutationOptions(options), queryClient);
     }
     /**
  * @summary Admin logout
@@ -172,13 +177,13 @@ const {mutation: mutationOptions} = options ?
  */
 export const usePostApiV1AdminAuthLogout = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiV1AdminAuthLogout>>, TError,void, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiV1AdminAuthLogout>>,
         TError,
         void,
         TContext
       > => {
-      return useMutation(getPostApiV1AdminAuthLogoutMutationOptions(options));
+      return useMutation(getPostApiV1AdminAuthLogoutMutationOptions(options), queryClient);
     }
     /**
  * @summary Get current admin profile
@@ -205,7 +210,7 @@ export const getGetApiV1AdminAuthMeQueryKey = () => {
     }
 
 
-export const getGetApiV1AdminAuthMeQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError = void>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError, TData>, }
+export const getGetApiV1AdminAuthMeQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError = void>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -220,25 +225,49 @@ const {query: queryOptions} = options ?? {};
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetApiV1AdminAuthMeQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1AdminAuthMe>>>
 export type GetApiV1AdminAuthMeQueryError = void
 
 
+export function useGetApiV1AdminAuthMe<TData = Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError = void>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminAuthMe>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminAuthMe>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminAuthMe<TData = Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiV1AdminAuthMe>>,
+          TError,
+          Awaited<ReturnType<typeof getApiV1AdminAuthMe>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiV1AdminAuthMe<TData = Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get current admin profile
  */
 
 export function useGetApiV1AdminAuthMe<TData = Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError = void>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError, TData>, }
-
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminAuthMe>>, TError, TData>>, }
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetApiV1AdminAuthMeQueryOptions(options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
@@ -307,11 +336,11 @@ const {mutation: mutationOptions} = options ?
  */
 export const usePatchApiV1AdminAuthChangePassword = <TError = void,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiV1AdminAuthChangePassword>>, TError,PatchApiV1AdminAuthChangePasswordMutationVariables, TContext>, }
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof patchApiV1AdminAuthChangePassword>>,
         TError,
         PatchApiV1AdminAuthChangePasswordMutationVariables,
         TContext
       > => {
-      return useMutation(getPatchApiV1AdminAuthChangePasswordMutationOptions(options));
+      return useMutation(getPatchApiV1AdminAuthChangePasswordMutationOptions(options), queryClient);
     }
