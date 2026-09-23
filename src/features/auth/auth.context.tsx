@@ -4,7 +4,6 @@ import Dotenv from "../../lib/dotenv";
 import { useQueryClient } from "@tanstack/react-query";
 import type { AdminUser, PostApiV1AdminAuthLoginBody } from "../../api/model";
 import {
-  getGetApiV1AdminAuthMeQueryKey,
   useGetApiV1AdminAuthMe,
   usePostApiV1AdminAuthLogin,
 } from "../../api/generated";
@@ -26,8 +25,11 @@ interface AuthProviderProps {
 const isProd = Dotenv.NODE_ENV === "production";
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const queryClient = useQueryClient();
+  const accessToken = Cookies.get("auth_token");
   const { mutate, isPending } = usePostApiV1AdminAuthLogin();
-  const { data, isLoading } = useGetApiV1AdminAuthMe(undefined);
+  const { data, isLoading } = useGetApiV1AdminAuthMe({
+    query: { enabled: !!accessToken, queryKey: ["current-user"] },
+  });
 
   const login = (data: LoginForm) => {
     mutate(
@@ -56,7 +58,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           }
 
           queryClient.invalidateQueries({
-            queryKey: getGetApiV1AdminAuthMeQueryKey(),
+            queryKey: ["current-user"],
           });
           appNotification.success("Hisobga kirdingiz!");
         },
@@ -71,7 +73,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     Cookies.remove("auth_token", { path: "/" });
     localStorage.removeItem("user");
     sessionStorage.removeItem("user");
-    window.location.href = "/";
+    window.location.reload();
   };
 
   return (
