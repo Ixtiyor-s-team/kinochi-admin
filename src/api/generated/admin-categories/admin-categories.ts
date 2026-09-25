@@ -25,7 +25,9 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  ErrorResponse,
   GetApiV1AdminCategories200,
+  GetApiV1AdminCategoriesParams,
   PatchApiV1AdminCategoriesIdBody,
   PostApiV1AdminCategoriesBody
 } from '../../model';
@@ -51,16 +53,18 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
 };
 
 /**
- * @summary List categories (Admin/Superadmin)
+ * Returns a paginated category list. Supports case-insensitive search by name/slug and sorting. Empty search value is ignored.
+ * @summary List categories with pagination, search and sorting (Admin/Superadmin)
  */
 export const getApiV1AdminCategories = (
-
+    params?: GetApiV1AdminCategoriesParams,
  signal?: AbortSignal
 ) => {
 
 
       return customInstance<GetApiV1AdminCategories200>(
-      {url: `/api/v1/admin/categories`, method: 'GET', signal
+      {url: `/api/v1/admin/categories`, method: 'GET',
+        params, signal
     },
       );
     }
@@ -68,23 +72,23 @@ export const getApiV1AdminCategories = (
 
 
 
-export const getGetApiV1AdminCategoriesQueryKey = () => {
+export const getGetApiV1AdminCategoriesQueryKey = (params?: GetApiV1AdminCategoriesParams,) => {
     return [
-    `/api/v1/admin/categories`
+    `/api/v1/admin/categories`, ...(params ? [params] : [])
     ] as const;
     }
 
 
-export const getGetApiV1AdminCategoriesQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>>, }
+export const getGetApiV1AdminCategoriesQueryOptions = <TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = ErrorResponse>(params?: GetApiV1AdminCategoriesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiV1AdminCategoriesQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetApiV1AdminCategoriesQueryKey(params);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV1AdminCategories>>> = ({ signal }) => getApiV1AdminCategories(signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiV1AdminCategories>>> = ({ signal }) => getApiV1AdminCategories(params, signal);
 
 
 
@@ -94,11 +98,11 @@ const {query: queryOptions} = options ?? {};
 }
 
 export type GetApiV1AdminCategoriesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiV1AdminCategories>>>
-export type GetApiV1AdminCategoriesQueryError = unknown
+export type GetApiV1AdminCategoriesQueryError = ErrorResponse
 
 
-export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>> & Pick<
+export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = ErrorResponse>(
+ params: undefined |  GetApiV1AdminCategoriesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiV1AdminCategories>>,
           TError,
@@ -107,8 +111,8 @@ export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof get
       >, }
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>> & Pick<
+export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = ErrorResponse>(
+ params?: GetApiV1AdminCategoriesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiV1AdminCategories>>,
           TError,
@@ -117,20 +121,20 @@ export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof get
       >, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>>, }
+export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = ErrorResponse>(
+ params?: GetApiV1AdminCategoriesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
- * @summary List categories (Admin/Superadmin)
+ * @summary List categories with pagination, search and sorting (Admin/Superadmin)
  */
 
-export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>>, }
+export function useGetApiV1AdminCategories<TData = Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError = ErrorResponse>(
+ params?: GetApiV1AdminCategoriesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiV1AdminCategories>>, TError, TData>>, }
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetApiV1AdminCategoriesQueryOptions(options)
+  const queryOptions = getGetApiV1AdminCategoriesQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
