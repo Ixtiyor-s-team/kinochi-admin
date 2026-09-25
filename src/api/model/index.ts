@@ -19,6 +19,8 @@ export * from './getApiV1AdminAdmins200';
 export * from './getApiV1AdminAdminsId200';
 export * from './getApiV1AdminAuthMe200';
 export * from './getApiV1AdminCategories200';
+export * from './getApiV1AdminCategoriesParams';
+export * from './getApiV1AdminCategoriesSort';
 export * from './getApiV1AdminNews200';
 export * from './getApiV1AdminNewsId200';
 export * from './getApiV1AdminNewsParams';

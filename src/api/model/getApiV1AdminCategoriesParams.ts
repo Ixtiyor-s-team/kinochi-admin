@@ -5,9 +5,9 @@
  * Production-ready REST API backend for news/movie platform with role-based access control (SUPERADMIN, ADMIN) and public read-only endpoints.
  * OpenAPI spec version: 1.0.0
  */
-import type { GetApiV1AdminTagsSort } from './getApiV1AdminTagsSort';
+import type { GetApiV1AdminCategoriesSort } from './getApiV1AdminCategoriesSort';
 
-export type GetApiV1AdminTagsParams = {
+export type GetApiV1AdminCategoriesParams = {
 /**
  * Page number (1-based)
  * @minimum 1
@@ -20,12 +20,12 @@ page?: number;
  */
 limit?: number;
 /**
- * Case-insensitive search by tag name or slug. Empty value is ignored.
+ * Case-insensitive search by category name or slug. Empty value is ignored.
  * @maxLength 100
  */
 search?: string;
 /**
  * Sort order (default: name_asc)
  */
-sort?: GetApiV1AdminTagsSort;
+sort?: GetApiV1AdminCategoriesSort;
 };

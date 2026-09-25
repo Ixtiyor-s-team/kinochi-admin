@@ -6,8 +6,10 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { Category } from './category';
+import type { PaginationMeta } from './paginationMeta';
 
 export type GetApiV1AdminCategories200 = {
-  success?: boolean;
-  data?: Category[];
+  success: boolean;
+  data: Category[];
+  pagination: PaginationMeta;
 };
