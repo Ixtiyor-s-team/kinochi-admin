@@ -61,6 +61,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             queryKey: ["current-user"],
           });
           appNotification.success("Hisobga kirdingiz!");
+          window.location.reload();
         },
         onError: (error: any) => {
           const msg = error.response.data.message;
