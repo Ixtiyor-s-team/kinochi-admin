@@ -30,7 +30,7 @@ export default function NewsPage() {
     <Box w={"100%"}>
       <HeaderTitle
         title={"Barcha yangiliklar" + `(${data?.pagination?.total ?? "..."})`}
-        href={PATHS.UPSERT_NEWS("create")}
+        href={PATHS.UPSERT_NEWS("add")}
         buttonText="Yangilik qo'shish"
       />
       <FilterNewsForm />
